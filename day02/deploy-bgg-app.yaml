@@ -3,8 +3,7 @@ apiVersion: apps/v1
 
 kind: Deployment
 
-metadata:james1122
-
+metadata:
   name: bgg-app-deployment
   namespace: workshop02
 
@@ -23,7 +22,7 @@ spec:
 #        app.kubernetes.op/version: "v1"
         owner: engineering
     spec:
-      containers:\
+      containers:
       - name: bgg-app-pod
         image: stackupiss/bgg-app:v1
         imagePullPolicy: Always
