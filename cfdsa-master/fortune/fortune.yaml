@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: fortune-pod
+  labels:
+    app.kubernetes.io/name: fortune-pod
+    app.kubernetes.op/version: "v1"
+    owner: engineering
+
+spec:
+  containers:
+  - name: fortune
+    image: james1122/fortune
+    imagePullPolicy: Always
+    env:
+      - name: APP_PORT
+        value: "3000"
+    ports:
+      - name: fortune-port
+        containerPort: 3000
