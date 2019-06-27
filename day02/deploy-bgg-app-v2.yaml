@@ -63,6 +63,7 @@ spec:
   type: LoadBalancer
   selector:
     app.kubernetes.io/name: bgg-app-pod
+    app.kubernetes.op/version: "v2"
   ports:
   - name: mysql-port-svc
     port: 80

@@ -1,0 +1,92 @@
+[debug] Created tunnel using local port: '37801'
+
+[debug] SERVER: "127.0.0.1:37801"
+
+[debug] Original chart version: ""
+[debug] CHART PATH: /home/james/Developments/NCIF-Docker/src/container-lab/day03/helm/exappchart
+
+NAME:   exappv2
+REVISION: 1
+RELEASED: Thu Jun 27 16:45:08 2019
+CHART: exappchart-0.1.0
+USER-SUPPLIED VALUES:
+{}
+
+COMPUTED VALUES:
+APIKEY: 50e5dc615514f767e6570da2787f5a57462bce321dac874e8bd5cd06a1fc66c2
+containerPort: 5000
+fullnameOverride: ""
+image:
+  pullPolicy: IfNotPresent
+  repository: balanus/exapp
+  tag: v1
+imagePullSecrets: []
+nameOverride: ""
+namespace: workshop02
+replicaCount: 1
+service:
+  port: 80
+  type: NodePort
+
+HOOKS:
+MANIFEST:
+
+---
+# Source: exappchart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: exappv2-exappchart
+  namespace: workshop02
+  labels:
+    app.kubernetes.io/name: exappchart
+    helm.sh/chart: exappchart-0.1.0
+    app.kubernetes.io/instance: exappv2
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Tiller
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: httpappport
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: exappchart
+    app.kubernetes.io/instance: exappv2
+---
+# Source: exappchart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exappv2-exappchart
+  namespace: workshop02
+  labels:
+    app.kubernetes.io/name: exappchart
+    helm.sh/chart: exappchart-0.1.0
+    app.kubernetes.io/instance: exappv2
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Tiller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: exappchart
+      app.kubernetes.io/instance: exappv2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: exappchart
+        app.kubernetes.io/instance: exappv2
+    spec:
+      containers:
+        - name: exappchart
+          image: "balanus/exapp:v1"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name:  APIKEY
+            value:  50e5dc615514f767e6570da2787f5a57462bce321dac874e8bd5cd06a1fc66c2       
+          ports:
+            - name: httpappport
+              containerPort: 5000
+              protocol: TCP
