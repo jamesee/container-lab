@@ -57,7 +57,7 @@ metadata:
   name: bgg-app-svc-v2
   namespace: workshop02
   labels:
-    name: bgg-app-svc
+    name: bgg-app-svc-v2
 
 spec:
   type: ClusterIP
